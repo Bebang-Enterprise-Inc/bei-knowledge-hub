@@ -1,0 +1,40 @@
+# BEI Knowledge Hub v3 - Local Development
+
+version: '3.8'
+
+services:
+  knowledge-hub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bei-knowledge-hub
+    ports:
+      - "8000:8000"
+    environment:
+      # Use Doppler for secrets in development
+      # Or uncomment and use .env file
+      # - GEMINI_API_KEY=${GEMINI_API_KEY}
+      # - SUPABASE_URL=${SUPABASE_URL}
+      # - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - LOG_LEVEL=debug
+    volumes:
+      # Hot reload for development
+      - ./app:/app/app
+      - ./tests:/app/tests
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - knowledge-hub-network
+
+networks:
+  knowledge-hub-network:
+    driver: bridge
+
+# For production deployment to AWS Swarm, see:
+# - .github/workflows/deploy.yml
+# - AWS Swarm stack configuration
