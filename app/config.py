@@ -23,11 +23,11 @@ class Settings(BaseSettings):
     log_level: str = "info"
 
     # Gemini API
-    gemini_api_key: str
+    gemini_api_key: str = "test-key"  # Default for tests
 
     # Supabase
-    supabase_url: str
-    supabase_service_role_key: str
+    supabase_url: Optional[str] = None
+    supabase_service_role_key: Optional[str] = None
 
     # Observability
     langfuse_public_key: Optional[str] = None
