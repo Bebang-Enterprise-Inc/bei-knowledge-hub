@@ -9,8 +9,8 @@ from fastapi.responses import JSONResponse
 
 from .config import config
 
-# Import routers (will be created in later tasks)
-# from .api import ingest, search, analytics
+# Import routers
+from .api import search as search_router
 
 
 @asynccontextmanager
@@ -48,10 +48,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers (will be added in later tasks)
-# app.include_router(ingest.router, prefix="/api", tags=["ingest"])
-# app.include_router(search.router, prefix="/api", tags=["search"])
-# app.include_router(analytics.router, prefix="/api", tags=["analytics"])
+# Include routers
+app.include_router(search_router.router, prefix="/api", tags=["search"])
 
 
 @app.get("/")
