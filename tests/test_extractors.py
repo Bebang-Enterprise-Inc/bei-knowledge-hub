@@ -103,7 +103,7 @@ def test_pdf_extractor_processes_images():
     mock_reader.pages = [mock_page]
 
     with patch("app.extractors.pdf.PdfReader", return_value=mock_reader), \
-         patch("app.extractors.pdf.process_image") as mock_vision:
+         patch("app.services.vision.process_image") as mock_vision:
 
         mock_vision.return_value = {
             "type": "chart",
@@ -153,7 +153,7 @@ def test_docx_extractor_processes_images():
     mock_doc.inline_shapes = [mock_inline_shape]
 
     with patch("app.extractors.docx.Document", return_value=mock_doc), \
-         patch("app.extractors.docx.process_image") as mock_vision:
+         patch("app.services.vision.process_image") as mock_vision:
 
         mock_vision.return_value = {
             "type": "diagram",
